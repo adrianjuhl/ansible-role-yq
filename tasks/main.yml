@@ -20,7 +20,7 @@
 
 - name: Setting facts
   set_fact:
-    adrianjuhl__yq__install_dir:                 "{{ adrianjuhl__yq__install_bin_directory }}"
+    adrianjuhl__yq__install_directory: "{{ adrianjuhl__yq__install_bin_directory }}"
 
 - name: Create download directory
   file:
