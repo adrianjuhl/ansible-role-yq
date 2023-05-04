@@ -1,0 +1,10 @@
+---
+# From ansible-galaxy (a release tag)
+- src: adrianjuhl.yq
+  version: 0.1.0
+
+# From a branch from the github repo
+#- src: https://github.com/adrianjuhl/ansible-role-yq
+#  scm: git
+#  version: 0.1.0-develop
+#  name: adrianjuhl.yq

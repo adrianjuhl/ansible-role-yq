@@ -1,0 +1,27 @@
+---
+# defaults file for adrianjuhl.yq
+
+adrianjuhl__yq__yq_version: v4.40.4
+
+adrianjuhl__yq__yq_archive_filename: "yq_linux_amd64.tar.gz"
+
+adrianjuhl__yq__yq_executable_filename: "yq_linux_amd64"
+
+adrianjuhl__yq__yq_install_bin_directory: "/usr/local/bin"
+
+adrianjuhl__yq__yq_source_directory: "https://github.com/mikefarah/yq/releases/download/{{ adrianjuhl__yq__yq_version }}"
+
+adrianjuhl__yq__yq_download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/yq/{{ adrianjuhl__yq__yq_version }}"
+
+adrianjuhl__yq__yq_executable_file_sha512_checksums:
+  v4.33.3: "5dc9f0eae18a5c0930090cbb87ee55e93e9a089b91964c0f76bc7db0b2c85218ecd7668b20541414d4d96ce95cc5d46b431283f390146c8360ed237ad9450f1b"
+  v4.40.4: "b99383509062f398275294b611dba197814e470d968658da3a28f40caaff7157bfb34d439ffbbd78443ca3c590913604231ae17af6fa270755c52c3d6388dfd9"
+
+adrianjuhl__yq__yq_executable_file_sha512_checksum: "{{ adrianjuhl__yq__yq_executable_file_sha512_checksums[adrianjuhl__yq__yq_version] }}"
+
+adrianjuhl__yq__yq_archive_file_sha512_checksums:
+  v4.33.3: "176f387c3b6bfc4074a7a80191c266d01158bef0c28307492495a8af0b1f9885645d336b128289e5b05aaa92c60bf3353683d2239d4d70366d0e9f680e4ea5ff"
+  v4.40.4: "2883547123e870da99df86359c50056eb9cfd194b776df4e1953944926d184108e70bb21fe7ceb2969d1d80f129eca3b582a539ff2ec2345e578b8cc1287132f"
+
+adrianjuhl__yq__yq_archive_file_sha512_checksum: "{{ adrianjuhl__yq__yq_archive_file_sha512_checksums[adrianjuhl__yq__yq_version] }}"
+

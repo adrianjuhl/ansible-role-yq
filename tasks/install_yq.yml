@@ -1,0 +1,42 @@
+---
+
+- name: Set facts
+  set_fact:
+    adrianjuhl__yq__yq_download_checksum: ""
+
+- name: Set facts
+  set_fact:
+    adrianjuhl__yq__yq_download_checksum: "sha512:{{ adrianjuhl__yq__yq_archive_file_sha512_checksum }}"
+  when: adrianjuhl__yq__yq_archive_file_sha512_checksum is defined
+
+- name: Create download directory
+  file:
+    dest: "{{ adrianjuhl__yq__yq_download_directory }}"
+    state: directory
+    mode: "u=rwx,go=rx"
+  become: false
+
+- name: Download yq
+  get_url:
+    url: "{{ adrianjuhl__yq__yq_source_directory }}/{{ adrianjuhl__yq__yq_archive_filename }}"
+    dest: "{{ adrianjuhl__yq__yq_download_directory }}"
+    checksum: "{{ adrianjuhl__yq__yq_download_checksum }}"
+    force: no
+    mode: "u=rw,go=r"
+  become: false
+
+- name: Unarchive yq
+  unarchive:
+    src: "{{ adrianjuhl__yq__yq_download_directory }}/{{ adrianjuhl__yq__yq_archive_filename }}"
+    dest: "{{ adrianjuhl__yq__yq_download_directory }}"
+    copy: false
+  become: false
+
+- name: Copy yq into install directory
+  ansible.builtin.copy:
+    src: "{{ adrianjuhl__yq__yq_download_directory }}/{{ adrianjuhl__yq__yq_executable_filename }}"
+    dest: "{{ adrianjuhl__yq__yq_install_bin_directory }}/yq"
+    mode: "0755"
+
+
+

@@ -1,0 +1,5 @@
+---
+
+- name: Configure yq
+  ansible.builtin.include_tasks: configure_yq.yml
+
