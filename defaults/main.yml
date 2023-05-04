@@ -1,0 +1,24 @@
+---
+# defaults file for adrianjuhl.yq
+
+adrianjuhl__yq__version_major: 3
+
+adrianjuhl__yq__version: v4.33.3
+
+adrianjuhl__yq__filename: "yq_linux_amd64.tar.gz"
+
+adrianjuhl__yq__install_bin_directory: "/usr/local/bin"
+
+adrianjuhl__yq__source_directory: "https://github.com/mikefarah/yq/releases/download/{{ adrianjuhl__yq__version }}"
+
+adrianjuhl__yq__download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/yq/{{ adrianjuhl__yq__version }}"
+
+adrianjuhl__yq__file_checksums:
+  v4.33.3: "sha512:TBD"
+
+adrianjuhl__yq__file_checksum: "{{ adrianjuhl__yq__file_checksums[adrianjuhl__yq__version] }}"
+
+adrianjuhl__yq__alternatives_priority: 50
+
+adrianjuhl__yq__alternatives_state: selected
+

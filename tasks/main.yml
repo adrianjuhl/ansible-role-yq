@@ -17,3 +17,48 @@
   ansible.builtin.debug:
     var: ansible_facts
 
+
+- name: Setting facts
+  set_fact:
+    adrianjuhl__yq__install_dir:                 "{{ adrianjuhl__yq__install_bin_directory }}"
+
+- name: Create download directory
+  file:
+    dest: "{{ adrianjuhl__yq__download_directory }}"
+    state: directory
+    mode: "u=rwx,go=rx"
+
+- name: Download yq
+  get_url:
+    url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__filename }}"
+    dest: "{{ adrianjuhl__yq__download_directory }}"
+#    checksum: "{{ adrianjuhl__yq__file_checksum }}"
+    force: no
+    mode: "u=rw,go=r"
+
+#- name: Create yq install directory.
+#  file:
+#    dest: "{{ adrianjuhl__yq__install_directory }}"
+#    state: directory
+#  become: true
+
+- name: Unarchive yq
+  unarchive:
+    src: "{{ adrianjuhl__yq__download_directory }}/{{ adrianjuhl__yq__filename }}"
+    dest: "{{ adrianjuhl__yq__install_directory }}"
+    copy: false
+  become: true
+
+#- name: Install maven alternative
+#  community.general.alternatives:
+#    name: mvn
+#    path: "{{ adrianjuhl__maven__install_directory }}/apache-maven-{{ adrianjuhl__maven__version }}/bin/mvn"
+#    link: /usr/bin/mvn
+#    priority: "{{ adrianjuhl__maven__alternatives_priority }}"
+#    state: "{{ adrianjuhl__maven__alternatives_state }}"
+#  become: true
+
+
+
+
+
