@@ -43,7 +43,7 @@ install_yq()
     abort_script
   fi
 
-  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} \
+  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} -v \
     --inventory="localhost," \
     --connection=local \
     --ask-become-pass \
