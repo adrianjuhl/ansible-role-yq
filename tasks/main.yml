@@ -13,3 +13,7 @@
   ansible.builtin.debug:
     msg: "variable ansible_os_family has the value: {{ ansible_os_family }}"
 
+- name: Print all available facts
+  ansible.builtin.debug:
+    var: ansible_facts
+
