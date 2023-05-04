@@ -1,0 +1,15 @@
+---
+# tasks file for adrianjuhl.yq
+
+- name: Example print message
+  ansible.builtin.debug:
+    msg: "hello from role adrianjuhl.yq"
+
+- name: Example print message
+  ansible.builtin.debug:
+    msg: "variable ansible_architecture has the value: {{ ansible_architecture }}"
+
+- name: Example print message
+  ansible.builtin.debug:
+    msg: "variable ansible_os_family has the value: {{ ansible_os_family }}"
+
