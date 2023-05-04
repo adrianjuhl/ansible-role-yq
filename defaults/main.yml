@@ -5,7 +5,9 @@ adrianjuhl__yq__version_major: 3
 
 adrianjuhl__yq__version: v4.33.3
 
-adrianjuhl__yq__filename: "yq_linux_amd64.tar.gz"
+adrianjuhl__yq__archive_filename: "yq_linux_amd64.tar.gz"
+
+adrianjuhl__yq__source_filename: "yq_linux_amd64"
 
 adrianjuhl__yq__install_bin_directory: "/usr/local/bin"
 
