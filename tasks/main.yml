@@ -17,6 +17,10 @@
   ansible.builtin.debug:
     var: ansible_facts
 
+- name: Get stats of a file
+  ansible.builtin.stat:
+    path: "{{ adrianjuhl__yq__install_bin_directory }}/yq"
+  register: yq_file_stat
 
 #- name: Setting facts
 #  set_fact:
