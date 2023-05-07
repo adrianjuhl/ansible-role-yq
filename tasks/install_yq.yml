@@ -1,5 +1,14 @@
 ---
 
+- name: Set facts
+  set_fact:
+    adrianjuhl__yq__download_checksum: ""
+
+- name: Set facts
+  set_fact:
+    adrianjuhl__yq__download_checksum: "sha512:{{ adrianjuhl__yq__archive_file_sha512_checksum }}"
+  when: adrianjuhl__yq__yq_file_sha512_checksum is defined
+
 - name: Create download directory
   file:
     dest: "{{ adrianjuhl__yq__download_directory }}"
@@ -11,21 +20,21 @@
   get_url:
     url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
     dest: "{{ adrianjuhl__yq__download_directory }}"
-    checksum: "sha512:{{ adrianjuhl__yq__archive_file_sha512_checksum }}"
+    checksum: "{{ adrianjuhl__yq__download_checksum }}"
     force: no
     mode: "u=rw,go=r"
   become: false
-  when: adrianjuhl__yq__yq_file_sha512_checksum is defined
+#  when: adrianjuhl__yq__yq_file_sha512_checksum is defined
 
-- name: Download yq
-  get_url:
-    url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
-    dest: "{{ adrianjuhl__yq__download_directory }}"
-    checksum: ""
-    force: no
-    mode: "u=rw,go=r"
-  become: false
-  when: adrianjuhl__yq__yq_file_sha512_checksum is not defined
+#- name: Download yq
+#  get_url:
+#    url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
+#    dest: "{{ adrianjuhl__yq__download_directory }}"
+#    checksum: ""
+#    force: no
+#    mode: "u=rw,go=r"
+#  become: false
+#  when: adrianjuhl__yq__yq_file_sha512_checksum is not defined
 
 - name: Unarchive yq
   unarchive:
