@@ -21,7 +21,7 @@
   get_url:
     url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
     dest: "{{ adrianjuhl__yq__download_directory }}"
-    checksum: "sha512:abcd"
+    checksum: ""
     force: no
     mode: "u=rw,go=r"
   become: false
