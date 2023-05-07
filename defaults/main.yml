@@ -1,8 +1,6 @@
 ---
 # defaults file for adrianjuhl.yq
 
-adrianjuhl__yq__version_major: 3
-
 adrianjuhl__yq__version: v4.33.3
 
 adrianjuhl__yq__archive_filename: "yq_linux_amd64.tar.gz"
@@ -19,8 +17,4 @@ adrianjuhl__yq__file_checksums:
   v4.33.3: "sha512:176f387c3b6bfc4074a7a80191c266d01158bef0c28307492495a8af0b1f9885645d336b128289e5b05aaa92c60bf3353683d2239d4d70366d0e9f680e4ea5ff"
 
 adrianjuhl__yq__file_checksum: "{{ adrianjuhl__yq__file_checksums[adrianjuhl__yq__version] }}"
-
-adrianjuhl__yq__alternatives_priority: 50
-
-adrianjuhl__yq__alternatives_state: selected
 

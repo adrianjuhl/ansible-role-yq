@@ -5,11 +5,14 @@
 usage()
 {
   cat <<USAGE_TEXT
-Usage: $(basename "${BASH_SOURCE[0]}") [--dry_run] [--show_diff] [--help | -h] [--verbose | -v]
+Usage: $(basename "${BASH_SOURCE[0]}") [--install_bin_dir=<dir>] [--dry_run] [--show_diff] [--help | -h] [--verbose | -v]
 
 Install yq using the adrianjuhl.yq ansible role.
 
 Available options:
+  --install_bin_dir=<dir>
+      The base directory where the script should be installed. Defaults to "/usr/local/bin".
+
   --dry_run
       Run the role without making changes.
 
@@ -47,6 +50,7 @@ install_yq()
     --inventory="localhost," \
     --connection=local \
     --ask-become-pass \
+    --extra-vars="adrianjuhl__yq__install_bin_directory=${INSTALL_BIN_DIR}" \
     ${THIS_SCRIPT_DIRECTORY}/../.ansible/playbooks/install_yq.yml
   last_command_return_code="$?"
   if [ "${last_command_return_code}" -ne 0 ]; then
@@ -59,11 +63,15 @@ parse_script_params()
 {
   #msg "script params (${#}) are: ${@}"
   # default values of variables set from params
+  INSTALL_BIN_DIR="/usr/local/bin"
   ANSIBLE_CHECK_MODE_ARGUMENT=""
   ANSIBLE_DIFF_MODE_ARGUMENT=""
   while [ "${#}" -gt 0 ]
   do
     case "${1-}" in
+      --install_bin_dir=*)
+        INSTALL_BIN_DIR="${1#*=}"
+        ;;
       --dry_run)
         ANSIBLE_CHECK_MODE_ARGUMENT="--check"
         ;;

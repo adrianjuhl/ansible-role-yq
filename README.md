@@ -25,7 +25,7 @@ or
 - hosts: servers
   tasks:
     - name: Install yq
-      include_role:
+      ansible.builtin.include_role:
         name: adrianjuhl.yq
 ```
 

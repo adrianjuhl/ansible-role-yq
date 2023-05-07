@@ -18,9 +18,9 @@
     var: ansible_facts
 
 
-- name: Setting facts
-  set_fact:
-    adrianjuhl__yq__install_directory: "{{ adrianjuhl__yq__install_bin_directory }}"
+#- name: Setting facts
+#  set_fact:
+#    adrianjuhl__yq__install_directory: "{{ adrianjuhl__yq__install_bin_directory }}"
 
 - name: Create download directory
   file:
@@ -38,7 +38,7 @@
 
 #- name: Create yq install directory.
 #  file:
-#    dest: "{{ adrianjuhl__yq__install_directory }}"
+#    dest: "{{ adrianjuhl__yq__install_bin_directory }}"
 #    state: directory
 #  become: true
 
@@ -51,9 +51,9 @@
 - name: Copy yq into install directory
   ansible.builtin.copy:
     src: "{{ adrianjuhl__yq__download_directory }}/{{ adrianjuhl__yq__source_filename }}"
-    dest: "{{ adrianjuhl__yq__install_directory }}/yq"
+    dest: "{{ adrianjuhl__yq__install_bin_directory }}/yq"
     mode: "0755"
-  become: true
+#  become: true
 
 #- name: Install maven alternative
 #  community.general.alternatives:
