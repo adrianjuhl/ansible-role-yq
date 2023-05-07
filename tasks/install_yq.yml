@@ -15,6 +15,16 @@
     force: no
     mode: "u=rw,go=r"
   become: false
+  when: adrianjuhl__yq__yq_file_sha512_checksum is defined
+
+- name: Download yq
+  get_url:
+    url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
+    dest: "{{ adrianjuhl__yq__download_directory }}"
+    force: no
+    mode: "u=rw,go=r"
+  become: false
+  when: adrianjuhl__yq__yq_file_sha512_checksum is not defined
 
 - name: Unarchive yq
   unarchive:
