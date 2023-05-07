@@ -27,53 +27,53 @@
   ansible.builtin.include_tasks: install_yq.yml
   when: not yq_file_stat.stat.exists
 
-#- name: Setting facts
-#  set_fact:
-#    adrianjuhl__yq__install_directory: "{{ adrianjuhl__yq__install_bin_directory }}"
-
-- name: Create download directory
-  file:
-    dest: "{{ adrianjuhl__yq__download_directory }}"
-    state: directory
-    mode: "u=rwx,go=rx"
-
-- name: Download yq
-  get_url:
-    url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
-    dest: "{{ adrianjuhl__yq__download_directory }}"
-    checksum: "{{ adrianjuhl__yq__archive_file_checksum }}"
-    force: no
-    mode: "u=rw,go=r"
-
-#- name: Create yq install directory.
+##- name: Setting facts
+##  set_fact:
+##    adrianjuhl__yq__install_directory: "{{ adrianjuhl__yq__install_bin_directory }}"
+#
+#- name: Create download directory
 #  file:
-#    dest: "{{ adrianjuhl__yq__install_bin_directory }}"
+#    dest: "{{ adrianjuhl__yq__download_directory }}"
 #    state: directory
-#  become: true
-
-- name: Unarchive yq
-  unarchive:
-    src: "{{ adrianjuhl__yq__download_directory }}/{{ adrianjuhl__yq__archive_filename }}"
-    dest: "{{ adrianjuhl__yq__download_directory }}"
-    copy: false
-
-- name: Copy yq into install directory
-  ansible.builtin.copy:
-    src: "{{ adrianjuhl__yq__download_directory }}/{{ adrianjuhl__yq__source_filename }}"
-    dest: "{{ adrianjuhl__yq__install_bin_directory }}/yq"
-    mode: "0755"
-#  become: true
-
-#- name: Install maven alternative
-#  community.general.alternatives:
-#    name: mvn
-#    path: "{{ adrianjuhl__maven__install_directory }}/apache-maven-{{ adrianjuhl__maven__version }}/bin/mvn"
-#    link: /usr/bin/mvn
-#    priority: "{{ adrianjuhl__maven__alternatives_priority }}"
-#    state: "{{ adrianjuhl__maven__alternatives_state }}"
-#  become: true
-
-
+#    mode: "u=rwx,go=rx"
+#
+#- name: Download yq
+#  get_url:
+#    url: "{{ adrianjuhl__yq__source_directory }}/{{ adrianjuhl__yq__archive_filename }}"
+#    dest: "{{ adrianjuhl__yq__download_directory }}"
+#    checksum: "{{ adrianjuhl__yq__archive_file_checksum }}"
+#    force: no
+#    mode: "u=rw,go=r"
+#
+##- name: Create yq install directory.
+##  file:
+##    dest: "{{ adrianjuhl__yq__install_bin_directory }}"
+##    state: directory
+##  become: true
+#
+#- name: Unarchive yq
+#  unarchive:
+#    src: "{{ adrianjuhl__yq__download_directory }}/{{ adrianjuhl__yq__archive_filename }}"
+#    dest: "{{ adrianjuhl__yq__download_directory }}"
+#    copy: false
+#
+#- name: Copy yq into install directory
+#  ansible.builtin.copy:
+#    src: "{{ adrianjuhl__yq__download_directory }}/{{ adrianjuhl__yq__source_filename }}"
+#    dest: "{{ adrianjuhl__yq__install_bin_directory }}/yq"
+#    mode: "0755"
+##  become: true
+#
+##- name: Install maven alternative
+##  community.general.alternatives:
+##    name: mvn
+##    path: "{{ adrianjuhl__maven__install_directory }}/apache-maven-{{ adrianjuhl__maven__version }}/bin/mvn"
+##    link: /usr/bin/mvn
+##    priority: "{{ adrianjuhl__maven__alternatives_priority }}"
+##    state: "{{ adrianjuhl__maven__alternatives_state }}"
+##  become: true
+#
+#
 
 
 
