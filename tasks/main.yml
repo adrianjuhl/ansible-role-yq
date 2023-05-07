@@ -23,6 +23,10 @@
     checksum_algorithm: sha512
   register: yq_file_stat
 
+- name: Install yq if missing or invalid
+  ansible.builtin.include_tasks: install_yq.yml
+  when: not yq_file_stat.stat.exists
+
 #- name: Setting facts
 #  set_fact:
 #    adrianjuhl__yq__install_directory: "{{ adrianjuhl__yq__install_bin_directory }}"
