@@ -20,6 +20,7 @@
 - name: Get stats of a file
   ansible.builtin.stat:
     path: "{{ adrianjuhl__yq__install_bin_directory }}/yq"
+    checksum_algorithm: sha512
   register: yq_file_stat
 
 #- name: Setting facts
