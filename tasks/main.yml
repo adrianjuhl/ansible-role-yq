@@ -10,5 +10,5 @@
 
 - name: Install yq if missing or invalid
   ansible.builtin.include_tasks: install_yq.yml
-  when: not yq_file_stat.stat.exists
+  when: (not yq_file_stat.stat.exists) or (yq_file_stat.stat.checksum != adrianjuhl__yq__yq_file_checksum)
 
