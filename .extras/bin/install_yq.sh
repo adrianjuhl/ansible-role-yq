@@ -5,13 +5,19 @@
 usage()
 {
   cat <<USAGE_TEXT
-Usage: $(basename "${BASH_SOURCE[0]}") [--install_bin_dir=<dir>] [--dry_run] [--show_diff] [--help | -h] [--verbose | -v]
+Usage: $(basename "${BASH_SOURCE[0]}")
+                       [--install_bin_dir=<dir>]
+                       [--requires_become=<true|false>]
+                       [--dry_run] [--show_diff] [--help | -h] [--verbose | -v]
 
 Install yq using the adrianjuhl.yq ansible role.
 
 Available options:
   --install_bin_dir=<dir>
       The base directory where the script should be installed. Defaults to "/usr/local/bin".
+
+  --requires_become=<true|false>
+      Is privilege escalation required? Defaults to true.
 
   --dry_run
       Run the role without making changes.
@@ -46,11 +52,17 @@ install_yq()
     abort_script
   fi
 
-  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} -v \
+  ASK_BECOME_PASS_OPTION=""
+  if [ "${REQUIRES_BECOME}" = "${TRUE_STRING}" ]; then
+    ASK_BECOME_PASS_OPTION="--ask-become-pass"
+  fi
+#    --ask-become-pass \
+
+  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} -v \
     --inventory="localhost," \
     --connection=local \
-    --ask-become-pass \
     --extra-vars="adrianjuhl__yq__install_bin_directory=${INSTALL_BIN_DIR}" \
+    --extra-vars="local_playbook__install_yq__requires_become=${REQUIRES_BECOME}" \
     ${THIS_SCRIPT_DIRECTORY}/../.ansible/playbooks/install_yq.yml
   last_command_return_code="$?"
   if [ "${last_command_return_code}" -ne 0 ]; then
@@ -64,6 +76,8 @@ parse_script_params()
   #msg "script params (${#}) are: ${@}"
   # default values of variables set from params
   INSTALL_BIN_DIR="/usr/local/bin"
+  REQUIRES_BECOME="${TRUE_STRING}"
+  REQUIRES_BECOME_PARAM=""
   ANSIBLE_CHECK_MODE_ARGUMENT=""
   ANSIBLE_DIFF_MODE_ARGUMENT=""
   while [ "${#}" -gt 0 ]
@@ -71,6 +85,9 @@ parse_script_params()
     case "${1-}" in
       --install_bin_dir=*)
         INSTALL_BIN_DIR="${1#*=}"
+        ;;
+      --requires_become=*)
+        REQUIRES_BECOME_PARAM="${1#*=}"
         ;;
       --dry_run)
         ANSIBLE_CHECK_MODE_ARGUMENT="--check"
@@ -94,6 +111,23 @@ parse_script_params()
     esac
     shift
   done
+  case "${REQUIRES_BECOME_PARAM}" in
+    "true")
+      REQUIRES_BECOME="${TRUE_STRING}"
+      ;;
+    "false")
+      REQUIRES_BECOME="${FALSE_STRING}"
+      ;;
+    "")
+      REQUIRES_BECOME="${TRUE_STRING}"
+      ;;
+    *)
+      msg "Error: Invalid requires_become param value: ${REQUIRES_BECOME_PARAM}, expected one of: true, false"
+      abort_script
+      ;;
+  esac
+  echo "REQUIRES_BECOME_PARAM is: ${REQUIRES_BECOME_PARAM}"
+  echo "REQUIRES_BECOME is: ${REQUIRES_BECOME}"
 }
 
 initialize()
@@ -107,8 +141,8 @@ initialize()
   # so this is as clear as it can be, using, for example:
   # if [ "${my_boolean_var}" = "${TRUE_STRING}" ]; then
   # where previously 'my_boolean_var' is set to either ${TRUE_STRING} or ${FALSE_STRING}
-  TRUE_STRING="true_string"
-  FALSE_STRING="false_string"
+  TRUE_STRING="true"
+  FALSE_STRING="false"
 }
 
 initialize_abort_script_config()

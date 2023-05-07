@@ -18,7 +18,7 @@ None.
 ```
 - hosts: servers
   roles:
-    - { role: adrianjuhl.yq }
+    - { role: adrianjuhl.yq, become: true }
 
 or
 
@@ -27,6 +27,18 @@ or
     - name: Install yq
       ansible.builtin.include_role:
         name: adrianjuhl.yq
+        apply:
+          become: true
+
+or (install into the user's ~/.local/bin directory)
+
+- hosts: servers
+  tasks:
+    - name: Install yq
+      ansible.builtin.include_role:
+        name: adrianjuhl.yq
+      vars:
+        adrianjuhl__yq__install_bin_directory: "{{ ansible_env.HOME }}/.local/bin"
 ```
 
 ## Extras
