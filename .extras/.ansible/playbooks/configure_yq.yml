@@ -1,9 +1,7 @@
 ---
-- name: Install yq
-  hosts: localhost
+- name: "Install yq"
+  hosts: "localhost"
   tasks:
-    - name: Install yq
+    - name: "Install yq"
       ansible.builtin.include_role:
-        name: adrianjuhl.yq
-        apply:
-          become: "{{ local_playbook__install_yq__requires_become }}"
+        name: "adrianjuhl.yq"

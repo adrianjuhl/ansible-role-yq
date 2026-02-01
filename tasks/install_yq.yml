@@ -1,42 +1,61 @@
 ---
 
-- name: Set facts
-  set_fact:
-    adrianjuhl__yq__yq_download_checksum: ""
-
-- name: Set facts
-  set_fact:
-    adrianjuhl__yq__yq_download_checksum: "sha512:{{ adrianjuhl__yq__yq_archive_file_sha512_checksum }}"
+- name: "Set facts"
+  ansible.builtin.set_fact:
+    adrianjuhl__yq__yq_archive_file_checksum: "sha512:{{ adrianjuhl__yq__yq_archive_file_sha512_checksum }}"
   when: adrianjuhl__yq__yq_archive_file_sha512_checksum is defined
 
-- name: Create download directory
-  file:
+- name: "Create download directory"
+  ansible.builtin.file:
     dest: "{{ adrianjuhl__yq__yq_download_directory }}"
-    state: directory
+    state: "directory"
     mode: "u=rwx,go=rx"
-  become: false
 
-- name: Download yq
-  get_url:
-    url: "{{ adrianjuhl__yq__yq_source_directory }}/{{ adrianjuhl__yq__yq_archive_filename }}"
+- name: "Get stats of yq archive file"
+  ansible.builtin.stat:
+    path: "{{ adrianjuhl__yq__yq_download_directory }}//{{ adrianjuhl__yq__yq_archive_filename }}"
+    checksum_algorithm: "sha512"
+  register: "yq_archive_file_stat"
+
+#- name: "Print info"
+#  ansible.builtin.debug:
+#    msg: "yq_archive_file_stat: {{ yq_archive_file_stat }} "
+#- name: "Print info"
+#  ansible.builtin.debug:
+#    msg: "yq_archive_file_stat.stat.checksum: {{ yq_archive_file_stat.stat.checksum }} "
+#- name: "Print info"
+#  ansible.builtin.debug:
+#    msg: "adrianjuhl__yq__yq_archive_file_sha512_checksum: {{ adrianjuhl__yq__yq_archive_file_sha512_checksum }} "
+
+- name: "Download yq (when archive file does not exist or download checksum is not defined)"
+  ansible.builtin.get_url:
+    url: "{{ adrianjuhl__yq__yq_archive_source_url }}"
     dest: "{{ adrianjuhl__yq__yq_download_directory }}"
-    checksum: "{{ adrianjuhl__yq__yq_download_checksum }}"
-    force: no
+    force: true
     mode: "u=rw,go=r"
-  become: false
+  when: (not yq_archive_file_stat.stat.exists)
+        or (adrianjuhl__yq__yq_archive_file_sha512_checksum is not defined)
 
-- name: Unarchive yq
-  unarchive:
+- name: "Download yq (when file exists and download checksum is defined and checksum is not correct)"
+  ansible.builtin.get_url:
+    url: "{{ adrianjuhl__yq__yq_archive_source_url }}"
+    dest: "{{ adrianjuhl__yq__yq_download_directory }}"
+    checksum: "{{ adrianjuhl__yq__yq_archive_file_checksum }}"
+    force: true
+    mode: "u=rw,go=r"
+  when: (yq_archive_file_stat.stat.exists)
+        and (adrianjuhl__yq__yq_archive_file_sha512_checksum is defined)
+        and (yq_archive_file_stat.stat.checksum != adrianjuhl__yq__yq_archive_file_sha512_checksum)
+
+- name: "Unarchive yq"
+  ansible.builtin.unarchive:
     src: "{{ adrianjuhl__yq__yq_download_directory }}/{{ adrianjuhl__yq__yq_archive_filename }}"
     dest: "{{ adrianjuhl__yq__yq_download_directory }}"
     copy: false
-  become: false
 
-- name: Copy yq into install directory
+- name: "Copy yq into install directory"
   ansible.builtin.copy:
     src: "{{ adrianjuhl__yq__yq_download_directory }}/{{ adrianjuhl__yq__yq_executable_filename }}"
     dest: "{{ adrianjuhl__yq__yq_install_bin_directory }}/yq"
     mode: "0755"
-
-
-
+  become: "{{ adrianjuhl__yq__yq_installation_requires_become | bool }}"

@@ -1,10 +1,11 @@
 ---
 # From ansible-galaxy (a release tag)
-- src: adrianjuhl.yq
-  version: 0.1.0
+- src: "adrianjuhl.yq"
+  version: "0.2.0"
+  name: "adrianjuhl.yq"
 
 # From a branch from the github repo
-#- src: https://github.com/adrianjuhl/ansible-role-yq
-#  scm: git
-#  version: 0.1.0-develop
-#  name: adrianjuhl.yq
+#- src: "https://github.com/adrianjuhl/ansible-role-yq"
+#  scm: "git"
+#  version: "0.2.0-develop-WIP-1"
+#  name: "adrianjuhl.yq"

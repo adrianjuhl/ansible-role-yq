@@ -1,14 +1,13 @@
 ---
 
-- name: Get stats of installed yq file
+- name: "Get stats of installed yq file"
   ansible.builtin.stat:
     path: "{{ adrianjuhl__yq__yq_install_bin_directory }}/yq"
-    checksum_algorithm: sha512
-  register: yq_executable_file_stat
-  become: false
+    checksum_algorithm: "sha512"
+  register: "yq_executable_file_stat"
 
-- name: Install yq if missing or invalid
-  ansible.builtin.include_tasks: install_yq.yml
+- name: "Install yq if missing or invalid"
+  ansible.builtin.include_tasks: "install_yq.yml"
   when: (not yq_executable_file_stat.stat.exists)
         or (adrianjuhl__yq__yq_executable_file_sha512_checksum is not defined)
         or (yq_executable_file_stat.stat.checksum != adrianjuhl__yq__yq_executable_file_sha512_checksum)
